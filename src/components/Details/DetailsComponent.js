@@ -56,8 +56,8 @@ class Details extends React.Component {
     this.props.dispatch({ type: ACTIONS.REFRESH_NODE_LABELS, payload: this.props.nodeLabels });
   }
 
-  onTraverse(nodeId, direction) {
-    const query = `g.V('${nodeId}').${direction}()`;
+  onTraverse(nodeId, direction) {    
+    const query = `g.V('${nodeId}').${direction}().path().unfold()`;
     axios.post(
       QUERY_ENDPOINT,
       { host: this.props.host, port: this.props.port, query: query, nodeLimit: this.props.nodeLimit },
@@ -125,6 +125,16 @@ class Details extends React.Component {
     });
   }
 
+
+  download() {    
+    let canvas = document.querySelector('canvas');
+    if (canvas) {
+      document.getElementById('downloader').href = canvas.toDataURL("image/png")
+        .replace(/^data:image\/png/, 'data:application/octet-stream');
+    }
+    
+  }
+
   render(){
     let hasSelected = false;
     let selectedType = null;
@@ -147,9 +157,11 @@ class Details extends React.Component {
       stringifyObjectValues(selectedProperties);
     }
 
-
+   
     return (
       <div className={'details'}>
+        <a href="#" id="downloader" onClick={this.download.bind(this)} download="graph.png">Download Image</a>
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={12}>
             <ExpansionPanel>

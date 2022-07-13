@@ -11,7 +11,7 @@ export const getDiffNodes = (newList, oldList) => {
 };
 
 export const getDiffEdges = (newList, oldList) => {
-  return _.differenceBy(newList, oldList, (edge) => `${edge.from},${edge.to}`);
+  return _.differenceBy(newList, oldList, (edge) => edge.id);
 };
 
 export const extractEdgesAndNodes = (nodeList, nodeLabels=[]) => {

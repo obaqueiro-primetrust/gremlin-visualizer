@@ -11,10 +11,15 @@ const initialState = {
   edges: [],
   selectedNode: {},
   selectedEdge: {},
+  loading: false,
 };
 
 export const reducer =  (state=initialState, action)=>{
   switch (action.type){
+    case ACTIONS.FINALIZE_QUERY: {
+      console.log('FINALZIE QUERY')
+      return {...state, loading: false }
+    }
     case ACTIONS.CLEAR_GRAPH: {
       state.nodeHolder.clear();
       state.edgeHolder.clear();
@@ -26,14 +31,16 @@ export const reducer =  (state=initialState, action)=>{
     }
     case ACTIONS.ADD_NODES: {
       const newNodes = getDiffNodes(action.payload, state.nodes);
-      const nodes = [...state.nodes, ...newNodes];
-      state.nodeHolder.add(newNodes);
+      const nodes = [...state.nodes, ...newNodes];      
+      state.nodeHolder.update(nodes);
       return { ...state, nodes };
     }
     case ACTIONS.ADD_EDGES: {
+      console.log(action.payload)
+
       const newEdges = getDiffEdges(action.payload, state.edges);
       const edges = [...state.edges, ...newEdges];
-      state.edgeHolder.add(newEdges);
+      state.edgeHolder.update(edges);
       return { ...state, edges };
     }
     case ACTIONS.SET_SELECTED_NODE: {

@@ -8,10 +8,11 @@ export const onFetchQuery = (result, query, oldNodeLabels, dispatch) => {
   dispatch({ type: ACTIONS.ADD_EDGES, payload: edges });
   dispatch({ type: ACTIONS.SET_NODE_LABELS, payload: nodeLabels });
   dispatch({ type: ACTIONS.ADD_QUERY_HISTORY, payload: query });
+  dispatch({ type: ACTIONS.FINALIZE_QUERY, payload: query})
 };
 
 export const traverseNode = (nodeId, direction, props) => {
-  const query = `g.V('${nodeId}').${direction}()`;
+  const query = `g.V('${nodeId}').${direction}().path().unfold()`;
   console.log(JSON.stringify({ host: props.host, port: props.port, query: query, nodeLimit: props.nodeLimit },
     ))
   axios.post(
