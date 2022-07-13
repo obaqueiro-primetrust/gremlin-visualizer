@@ -27,6 +27,7 @@
     "uuid": "^8.3.2",
     "vis-network": "^6.4.4"
   },
+  
   "proxy": "http://localhost:3001",
   "scripts": {
     "client": "react-scripts start",
